@@ -1,0 +1,29 @@
+name: Notificacion de cambios
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ejecutar-programa:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar archivos del repositorio
+        uses: actions/checkout@v6
+
+      - name: Preparar JavaScript
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Ejecutar mi Hola Mundo
+        run: node hola.js
+
+      - name: Enviar notificación
+        run: |
+          curl -H "Title: Nuevo cambio en main" \
+               -H "Tags: github,heavy_check_mark" \
+               -d "Se actualizo el repositorio con un nuevo cambio." \
+               https://ntfy.sh/devops-itla
